@@ -22,7 +22,7 @@ export default class Vehicle extends BaseModel {
   public price: number
 
   @column()
-  public color: number
+  public color: string
 
   @column()
   public isFavorite: boolean
