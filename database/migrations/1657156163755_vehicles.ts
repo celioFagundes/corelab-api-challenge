@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name')
       table.string('description')
+      table.string('brand')
       table.string('plate')
       table.boolean('is_favorite')
       table.integer('year')
