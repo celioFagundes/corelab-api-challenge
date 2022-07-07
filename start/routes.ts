@@ -21,6 +21,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/vehicles', 'VehiclesController.findAll')
+Route.get('/vehicles/filter', 'VehiclesController.findFilter')
 Route.get('/vehicles/:id', 'VehiclesController.findById')
 Route.post('/vehicles', 'VehiclesController.create')
 Route.put('/vehicles/:id', 'VehiclesController.update')
