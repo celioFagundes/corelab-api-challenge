@@ -1,4 +1,3 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Vehicle from 'App/Models/Vehicle'
 
 export default class VehiclesController {
@@ -64,6 +63,6 @@ export default class VehiclesController {
   }
   public async toggleIsFavorite({ params }) {
     const vehicle = await Vehicle.findOrFail(params.id)
-    await vehicle.merge({ isFavorite: !vehicle.isFavorite }).save()
+    await vehicle.merge({ is_favorite: !vehicle.is_favorite }).save()
   }
 }

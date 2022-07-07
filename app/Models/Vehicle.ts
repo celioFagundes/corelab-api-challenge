@@ -28,7 +28,7 @@ export default class Vehicle extends BaseModel {
   public color: string
 
   @column()
-  public isFavorite: boolean
+  public is_favorite: boolean
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
