@@ -7,7 +7,7 @@ export default class VehiclesController {
     return vehicles
   }
   public async findById({ params }) {
-    const vehicle = await Vehicle.find(params.id)
+    const vehicle = await Vehicle.findOrFail(params.id)
     return vehicle
   }
   public async create({ request }) {
@@ -19,10 +19,13 @@ export default class VehiclesController {
     const body = request.requestData
     const vehicle = await Vehicle.findOrFail(params.id)
     await vehicle.merge({ ...body }).save()
-    return vehicle
   }
   public async delete({ params }) {
     const vehicle = await Vehicle.findOrFail(params.id)
     await vehicle.delete()
+  }
+  public async toggleIsFavorite({ params }) {
+    const vehicle = await Vehicle.findOrFail(params.id)
+    await vehicle.merge({ isFavorite: !vehicle.isFavorite }).save()
   }
 }
