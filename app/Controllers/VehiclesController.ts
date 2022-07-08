@@ -1,13 +1,14 @@
 import Vehicle from 'App/Models/Vehicle'
+import { IVehicle } from 'App/Types/Vehicle'
 
 export default class VehiclesController {
   public async findAll({ request }) {
-    const { keyword } = request.requestData
+    const { keyword, color, brand, year, minValue, maxValue } = request.requestData
     const query = Vehicle.query()
     const keywordIsNumber = parseInt(keyword) >= 0
     if (keyword) {
       query
-        .whereILike('name', keyword)
+        .orWhereILike('name', keyword)
         .orWhereILike('description', `%${keyword}%`)
         .orWhereILike('brand', keyword)
         .orWhereILike('color', keyword)
@@ -16,9 +17,34 @@ export default class VehiclesController {
         query.orWhere('year', parseInt(keyword)).orWhere('price', parseInt(keyword))
       }
     }
-    const vehicles = await query
-    return vehicles
+    const vehicles = await query.exec()
+    let filterVehicles = vehicles
+    filterVehicles = this.filterBy(filterVehicles, 'color', color)
+    filterVehicles = this.filterBy(filterVehicles, 'brand', brand)
+    filterVehicles = this.filterBy(filterVehicles, 'year', parseInt(year))
+    filterVehicles = this.filterByPrice(filterVehicles, parseInt(minValue), parseInt(maxValue))
+    return filterVehicles
   }
+  filterBy = (list: Vehicle[], param: string, value: string | number) => {
+    if (value) {
+      const newList = list.filter((item) => item[param] === value)
+      return newList
+    }
+    return list
+  }
+  filterByPrice = (list: Vehicle[], min: number, max: number) => {
+    if (min && !max) {
+      return list.filter((item) => item.price >= min)
+    }
+    if (max && !min) {
+      return list.filter((item) => item.price <= max)
+    }
+    if (min && max) {
+      return list.filter((item) => item.price >= min && item.price <= max)
+    }
+    return list
+  }
+
   public async findFilter({ request }) {
     const { brand, color, year, minPrice, maxPrice } = request.requestData
     const query = Vehicle.query()
@@ -64,5 +90,6 @@ export default class VehiclesController {
   public async toggleIsFavorite({ params }) {
     const vehicle = await Vehicle.findOrFail(params.id)
     await vehicle.merge({ is_favorite: !vehicle.is_favorite }).save()
+    return vehicle
   }
 }
