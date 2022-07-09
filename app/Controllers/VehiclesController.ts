@@ -1,5 +1,4 @@
 import Vehicle from 'App/Models/Vehicle'
-import { IVehicle } from 'App/Types/Vehicle'
 
 export default class VehiclesController {
   public async findAll({ request }) {
@@ -90,6 +89,11 @@ export default class VehiclesController {
   public async toggleIsFavorite({ params }) {
     const vehicle = await Vehicle.findOrFail(params.id)
     await vehicle.merge({ is_favorite: !vehicle.is_favorite }).save()
+    return vehicle
+  }
+  public async createMany({ request }) {
+    const body = request.requestData
+    const vehicle = await Vehicle.createMany([...body.data])
     return vehicle
   }
 }
