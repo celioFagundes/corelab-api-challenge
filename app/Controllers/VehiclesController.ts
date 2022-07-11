@@ -42,6 +42,7 @@ export default class VehiclesController {
     const body = request.requestData
     const vehicle = await Vehicle.findOrFail(params.id)
     await vehicle.merge({ ...body }).save()
+    return vehicle
   }
   public async delete({ params }) {
     const vehicle = await Vehicle.findOrFail(params.id)
