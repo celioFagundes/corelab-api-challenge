@@ -18,7 +18,7 @@ Docker:
 - Na pasta corelab-api, criar imagem da API com o comando `docker build -t corelab-api .`
 - Em seguida, executar o docker-compose com o comando `docker compose up`.
 - Após isso, executar dentro do terminal do container corelab-api o comando `node ace migration:run` para criar o banco
-- Acessar o frontend em http://localhost:0000
+- Acessar o frontend em http://localhost:3000
 
 Para rodar localmente: 
 - No frontend , caso queira usar a API local, troque a url da variavel API no arquivo lib/api para "http://localhost:3333" (ou qualquer outra porta que esteja rodando o backend).</br>
