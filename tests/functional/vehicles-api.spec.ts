@@ -2,7 +2,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import { test } from '@japa/runner'
 import { DateTime } from 'luxon'
 
-test.group('Group name', (group) => {
+test.group('vehicles', (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction('pg')
     return () => Database.rollbackGlobalTransaction()
